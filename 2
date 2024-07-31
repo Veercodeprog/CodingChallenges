@@ -1,0 +1,50 @@
+#include <climits>
+#include <cstring>
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+const int INF = INT_MAX;
+const int MAXN = 100005;            // Adjust based on problem constraints
+vector<pair<int, int>> graph[MAXN]; // adjacency list for the graph
+
+// pair<int, int>: A pair is a simple container from the C++ Standard Library
+// that holds two values.
+int main() {
+  int n, m, k;
+  cin >> n >> m >> k;
+  vector<int> types(n + 1); // vactor with n+1 element as we waant to use 1
+                            // based indexing for the vectory of
+  vector<vector<int>> bacteria_of_type(k + 1);
+  // bacteria_of_type(k + 1): This creates a vector with k + 1 elements, where
+  // each element is an empty vector<int>.
+
+  // vector<vector<pair<int, int>>> adj(n + 1); // adjacency list
+  // it is vector of vector of pair as we want to store the weight of the edge
+  // as well its strructture is adj[1] = { {2, 3}, {3, 4} } means there is an
+  // edge from 1 to 2 with weight 3 and from 1 to 3 with weight
+
+  // for number of bacteria of each type
+  for (int i = 1; i <= k; i++) {
+    int totalCount += count;
+    if (totalCount > n) {
+      cout << "bacterias exceed the total number of bacteria i.e n" << endl;
+      return 0;
+    }
+    int count;
+    cin >> count;
+    types[i] = count;
+  }
+
+  for (int i = 0; i < m; i++) {
+
+    int u, v, w;
+    cin >> u >> v >> w;
+    vector<tuple<int, int, int>> edges(m);
+  }
+  vector<vector<int>> dist(
+      n + 1, vector<int>(n + 1)); // vector of type vector with n+1 rows and
+                                  // each row has vector of n+1 elements
+  for (int i = 1; i <= n; ++i) {
+  }
