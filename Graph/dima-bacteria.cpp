@@ -1,3 +1,7 @@
+/*
+ * https://codeforces.com/contest/1043/problem/C
+ */
+// imp
 #include <algorithm>
 #include <iostream>
 #include <tuple>
