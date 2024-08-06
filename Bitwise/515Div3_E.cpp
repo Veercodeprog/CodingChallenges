@@ -1,29 +1,43 @@
-
-#include <bitset>
 #include <iostream>
-#include <sstream>
 #include <string>
+#include <vector>
 
 const unsigned int MOD = 998244353;
 
+int binaryStringToInt(const std::string &binaryString) {
+  unsigned int result = 0;
+  for (char c : binaryString) {
+    result = (result << 1) | (c - '0');
+  }
+  return result;
+}
+std::string removeLastDigit(const std::string &binaryString) {
+  if (binaryString.empty()) {
+    return binaryString; // Handle empty input
+  }
+
+  // Remove the last character from the string
+  return binaryString.substr(0, binaryString.length() - 1);
+}
 int main() {
   int n, m;
   std::cin >> n >> m;
   std::string binaryString;
-  // std::cout << "Enter a binary string of lenght n: ";
   std::string binaryString1;
   std::cin >> binaryString;
-  // std::cout << "Enter a binary string of length m: ";
   std::cin >> binaryString1;
 
-  unsigned int a = std::bitset<1000000>(binaryString).to_ulong();
-  unsigned int b = std::bitset<1000000>(binaryString1).to_ulong();
+  // Convert binary strings to integers
+  unsigned int a = binaryStringToInt(binaryString);
+  unsigned int b = binaryStringToInt(binaryString1);
 
   int result = 0;
   for (int i = 0; i < m; i++) {
-    result += a & b;
+    unsigned int b = binaryStringToInt(binaryString1);
+    result = a & b;
+
     result = result % MOD;
-    b = b >> 1;
+    binaryString1 = removeLastDigit(binaryString1);
   }
   std::cout << result << std::endl;
 }
