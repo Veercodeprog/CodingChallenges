@@ -55,7 +55,7 @@ int main() {
       return 0;
     }
   }
-  for (int j = m - 1; 0 <= j; j--) {
+  for (int j = 0; j < n; j++) {
     if (order[j] == -1) {
       // try placicng cow 1 @ position j
       order[j] = 0;
