@@ -1,52 +1,64 @@
+#include <algorithm>
 #include <iostream>
-#include <unordered_map>
-#include <vector>
-// Function that checks possibility
+#include <set>
 
-// Function for order of entrance
-bool orderOfEnterance(std::unordered_map<int, int> &a, int n) {
-  std::vector<int> b(n);
-  int recentHandshakes = 0;
-  for (auto it = a.begin(); it != a.end(); it++) {
-    if (it->second == 0 || recentHandshakes == 0 ||
-        (it->second % 3 == 0 && it->second <= recentHandshakes + 1)) {
-      b.push_back(it->first);
-      recentHandshakes = it->second;
-      it = a.erase(it);
-    } else {
-      return 0;
-    }
-    if (it->second == 1 ||
-        (it->second % 3 == 1 && it->second <= recentHandshakes + 1)) {
-      b.push_back(it->first);
-      recentHandshakes = it->second;
-      it = a.erase(it);
-    } else {
-      return 0;
-    }
-    if (it->second == 2 ||
-        (it->second % 3 == 2 && it->second <= recentHandshakes + 1)) {
-      b.push_back(it->first);
-      recentHandshakes = it->second;
-      it = a.erase(it);
-    } else {
-      return false;
-    }
-  }
-  return true;
-}
+using namespace std;
+
+typedef pair<int, int> HandshakePair;
+const int MAX_STUDENTS = 1000001;
+
 int main() {
-  int n;
-  std::cin >> n;
+  int studentCount;
+  cin >> studentCount;
 
-  std::unordered_map<int, int> a(n); // Dynamic array using vector
-  for (int i = 1; i <= n; i++) {
-    std::cin >> a[i];
+  set<HandshakePair> handshakesByModulo[3];
+  int resultOrder[MAX_STUDENTS];
+
+  // Reading input and categorizing based on modulo 3
+  for (int i = 0; i < studentCount; i++) {
+    int handshakes;
+    cin >> handshakes;
+    handshakesByModulo[handshakes % 3].insert(make_pair(handshakes, i));
+    // Debugging: Show how handshakes are categorized
+    cout << "Handshake: " << handshakes << " goes into handshakesByModulo["
+         << (handshakes % 3) << "]" << endl;
   }
 
-  if (orderOfEnterance(a, n)) { // Pass the vector to the function
-    std::cout << "Possible";
-  } else {
-    std::cout << "Impossible";
+  int currentHandshakes = 0;
+
+  for (int i = 0; i < studentCount; i++) {
+    auto it = handshakesByModulo[currentHandshakes % 3].lower_bound(
+        make_pair(currentHandshakes, -1));
+
+    HandshakePair selectedStudent;
+    if (it != handshakesByModulo[currentHandshakes % 3].end() &&
+        it->first == currentHandshakes) {
+
+      selectedStudent = *it;
+      resultOrder[i] = selectedStudent.second + 1;
+      cout << "Selected exact match: " << selectedStudent.first << " at index "
+           << selectedStudent.second + 1 << endl;
+    } else {
+      if (it == handshakesByModulo[currentHandshakes % 3].begin()) {
+        cout << "Impossible" << endl;
+        return 0;
+      } else {
+        it--;
+        selectedStudent = *it;
+        resultOrder[i] = selectedStudent.second + 1;
+        cout << "Selected lower match: " << selectedStudent.first
+             << " at index " << selectedStudent.second + 1 << endl;
+      }
+    }
+    handshakesByModulo[currentHandshakes % 3].erase(selectedStudent);
+    currentHandshakes = selectedStudent.first + 1;
+    cout << "Updated currentHandshakes to " << currentHandshakes << endl;
   }
+
+  // If the loop completes, print the order
+  cout << "Possible" << endl;
+  for (int i = 0; i < studentCount; i++) {
+    cout << resultOrder[i] << " ";
+  }
+  cout << endl;
 }
