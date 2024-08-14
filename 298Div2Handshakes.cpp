@@ -36,8 +36,9 @@ int main() {
 
       selectedStudent = *it;
       resultOrder[i] = selectedStudent.second + 1;
-      cout << "Selected exact match: " << selectedStudent.first << " at index "
-           << selectedStudent.second + 1 << endl;
+      // cout << "Selected exact match: " << selectedStudent.first << " at index
+      // "
+      // << selectedStudent.second + 1 << endl;
     } else {
       if (it == handshakesByModulo[currentHandshakes % 3].begin()) {
         cout << "Impossible" << endl;
@@ -46,13 +47,13 @@ int main() {
         it--;
         selectedStudent = *it;
         resultOrder[i] = selectedStudent.second + 1;
-        cout << "Selected lower match: " << selectedStudent.first
-             << " at index " << selectedStudent.second + 1 << endl;
+        // cout << "Selected lower match: " << selectedStudent.first
+        // << " at index " << selectedStudent.second + 1 << endl;
       }
     }
     handshakesByModulo[currentHandshakes % 3].erase(selectedStudent);
     currentHandshakes = selectedStudent.first + 1;
-    cout << "Updated currentHandshakes to " << currentHandshakes << endl;
+    // cout << "Updated currentHandshakes to " << currentHandshakes << endl;
   }
 
   // If the loop completes, print the order
