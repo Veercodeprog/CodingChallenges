@@ -1,38 +1,32 @@
-// Define a struct to hold the ranks and related methods
-struct CarRepair {
-    ranks: Vec<u64>,
+fn repair_cars(ranks: Vec<u64>, cars: u64) -> u128 {
+    let mut left: u128 = 0;
+    let mut right: u128 = (*ranks.iter().min().unwrap() as u128) * (cars as u128) * (cars as u128);
+
+    while left < right {
+        let mid: u128 = (left + right) / 2;
+        if can_repair_all(&ranks, cars, mid) {
+            right = mid;
+        } else {
+            left = mid + 1;
+        }
+    }
+    left
 }
 
-impl CarRepair {
-    fn repair_cars(&self, cars: u64) -> u128 {
-        let mut lower_bound: u128 = 0;
-        let mut upper_bound: u128 = (*self.ranks.iter().min().unwrap() as u128) * (cars as u128);
-
-        while lower_bound < upper_bound {
-            let mid: u128 = (lower_bound + upper_bound) / 2;
-            if self.num_cars_fixed(mid) >= cars as u128 {
-                upper_bound = mid;
-            } else {
-                lower_bound = mid + 1;
-            }
+fn can_repair_all(ranks: &Vec<u64>, cars: u64, time: u128) -> bool {
+    let mut total_cars: u128 = 0;
+    for &rank in ranks.iter() {
+        total_cars += (time as f64 / rank as f64).sqrt() as u128;
+        if total_cars >= cars as u128 {
+            return true;
         }
-
-        lower_bound
     }
-
-    fn num_cars_fixed(&self, time: u128) -> u128 {
-        let mut cars_fixed: u128 = 0;
-        for &rank in self.ranks.iter() {
-            cars_fixed += (time as f64 / rank as f64).sqrt() as u128;
-        }
-        cars_fixed
-    }
+    total_cars >= cars as u128
 }
 
 fn main() {
-    let ranks = vec![4, 3, 2, 1];
-    let car_repair = CarRepair { ranks };
+    let ranks = vec![4, 2, 3, 1];
     let cars: u64 = 10;
-    let min_time = car_repair.repair_cars(cars);
+    let min_time = repair_cars(ranks, cars);
     println!("Minimum time to repair {} cars: {}", cars, min_time);
 }
